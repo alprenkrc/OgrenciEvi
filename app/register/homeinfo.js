@@ -10,17 +10,36 @@ const homeinfo = () => {
     // evin ismini gir
     // eve fotoğra ekle
 
-      <View style={styles.container}>
-        <TextInput
-          placeholder='Eve bir isim ver'
-        />
-        <Text>Ev Kira Mı Açılır Menü</Text>
-        <Text>Ev Kira ise Kaç Para</Text>
-        <Text>Evde Kaç Kişi Yaşıyor</Text>
-        <Text>Kira Günü Ayın Kaçında </Text>
-        <Text>Eve Bir Fotoğraf Ekle</Text>
-        <Link href="/register/qrScreen">Evi Oluştur</Link>
-      </View>
+    <View style={styles.container}>
+
+    <TextInput
+      placeholder='Eve Bir İsim Gir'
+      style={styles.input}
+    />
+    <TextInput
+      placeholder='Ev Kira İse Kira Kaç Para'
+      style={styles.input}
+    />
+    <TextInput
+      placeholder='Kira Günü Ayın Kaçında'
+      style={styles.input}
+    />
+    <TextInput
+      placeholder='Evde Kaç Kişi Yaşıyor'
+      style={styles.input}
+    />
+    <TextInput
+      placeholder='Eve Bir Fotoğraf Ekle'
+      style={styles.input}
+    />
+
+    <Link style={styles.login} href="/register/qrScreen">
+      <Text style={styles.text}>Evi Oluştur</Text>
+        
+    </Link>
+
+
+  </View>
 
   )
 }
@@ -31,6 +50,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+    marginLeft: 20,
+    marginRight: 20
+  },
+  input: {
+    width: "100%",
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: "white",
+    margin: 10,
+    fontSize: 16
+  },
+  login: {
+    width: "100%",
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: "#c7c70b",
+    marginBottom: 10,
+    textAlign: "center"
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000",
+  },
 })
