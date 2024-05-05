@@ -10,16 +10,6 @@ const main = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalBgColor, setModalBgColor] = useState('#EF5350');
 
-{
-  /**
-   
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
-
-   */
-}
-
   const onModalOpen = (color) => {
     setIsModalVisible(true);
     setModalBgColor(color);
@@ -67,14 +57,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 20,
     marginLeft: 20,
-
   },
   header: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
+    marginTop: 20,
+    marginBottom: 20,
 
-    marginBottom: 20
   },
   donatAndButtons: {
     flex: 2,

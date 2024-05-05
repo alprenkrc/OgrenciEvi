@@ -21,7 +21,10 @@ const expense = () => {
       <View style={styles.header}>
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>Ortak Giderler</Text>
       </View>
-      <ScrollView>
+      <View style={{flex: 0.5}}>
+
+      </View>
+      <ScrollView style={{flex: 1}}>
         <ExpenseBox/>
         <ExpenseBox/>
         <ExpenseBox/>
@@ -46,9 +49,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 20,
     marginLeft: 20,
-    
-    
-    
   },
   header: {
     flexDirection: "row",
