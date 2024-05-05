@@ -1,8 +1,8 @@
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import React from 'react'
 
-const addModal = ({isVisible, children, onclose}) => {
+const addModal = ({isVisible, onclose}) => {
   return (
     <Modal
         animationType='slide'
@@ -11,14 +11,14 @@ const addModal = ({isVisible, children, onclose}) => {
     >
         <View style={styles.modalContent}>
             <Pressable onPress={onclose} style={{width: "35%", height:10, borderRadius: 50, backgroundColor: "#8C8A8A", marginTop: 7}}/>
-
-                    
             
+            <TextInput style={styles.input} placeholder='Gider Adı'/>
+            <TextInput style={styles.input} placeholder='Açıklama'/>
+            <TextInput style={styles.input} placeholder='₺ Gider Miktarı' keyboardType='numeric' />
+            <TouchableOpacity style={styles.button} onPress={onclose}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>Gider Ekle</Text>
+            </TouchableOpacity>
 
- 
-            <Text>something..</Text>
-            <Text>something..</Text>
-            <Text>something..</Text>
         </View>
     </Modal>
   )
@@ -27,7 +27,7 @@ const addModal = ({isVisible, children, onclose}) => {
 
 const styles = StyleSheet.create({
     modalContent: {
-        height: '70%',
+        height: '60%',
         width: '100%',
         paddingRight: 20,
         paddingLeft: 20,
@@ -36,6 +36,28 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 40,
         position: 'absolute',
         bottom: 0,
+        alignItems: "center"
+    },
+    input: {
+        backgroundColor: "white",
+        width: "100%",
+        height: 50,
+        borderRadius: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    button: {
+        backgroundColor: "#EF5350",
+        width: "100%",
+        height: 50,
+        borderRadius: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginTop: 10,
+        marginBottom: 10,
+        justifyContent: "center",
         alignItems: "center"
     }
 })
