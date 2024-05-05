@@ -12,7 +12,7 @@ const addModal = ({isVisible, onclose, bgColor }) => {
 
     if (bgColor === "#EF5350") {
         modalContent =(
-        <View style={{        alignItems: "center", width: "100%"}}>
+        <View style={{        alignItems: "center", width: "100%", padding: 20}}>
         <TextInput style={styles.input} placeholder='Gider Adı'/>
         <TextInput style={styles.input} placeholder='Açıklama'/>
         <TextInput style={styles.input} placeholder='₺ Gider Miktarı' keyboardType='numeric' />
@@ -24,7 +24,7 @@ const addModal = ({isVisible, onclose, bgColor }) => {
     } 
     if(bgColor === "#DEDF21") {
         modalContent = (
-            <View style={{        alignItems: "center", width: "100%"}}>
+            <View style={{        alignItems: "center", width: "100%", padding: 20}}>
             <TextInput style={styles.input} placeholder='Görev Adı'/>
             <Text>Görev Alacak Kişileri Seç</Text>
             <View style={styles.taskBox}>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     },
     taskBox: {
         width: "100%",
-        padding: 10,
+        padding: 20,
         backgroundColor: "white",
         borderRadius: 20,
         flexDirection: "row",

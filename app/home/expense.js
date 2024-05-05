@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FloatingButtons from "../../components/floatingButtons";
 import AddModal from '../../components/addModal';
+import ExpenseBox from "../../components/ExpenseBox";
 import React, {useState} from "react";
 const expense = () => {
 
@@ -21,6 +22,14 @@ const expense = () => {
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>Ortak Giderler</Text>
       </View>
       <ScrollView>
+        <ExpenseBox/>
+        <ExpenseBox/>
+        <ExpenseBox/>
+        <ExpenseBox/>
+        <ExpenseBox/>
+        <ExpenseBox/>
+        <ExpenseBox/>
+        <ExpenseBox/>
       </ScrollView>
       <View style={{position: "absolute", bottom: 0, right: 0}}>
         <FloatingButtons onPress={onModalOpen} bgColor={"#EF5350"}/>
