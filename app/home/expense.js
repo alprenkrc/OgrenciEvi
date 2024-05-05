@@ -23,9 +23,9 @@ const expense = () => {
       <ScrollView>
       </ScrollView>
       <View style={{position: "absolute", bottom: 0, right: 0}}>
-        <FloatingButtons onPress={onModalOpen} />
+        <FloatingButtons onPress={onModalOpen} bgColor={"#EF5350"}/>
       </View>
-      <AddModal isVisible={isModalVisible} onclose={onModalClose}/>
+      <AddModal isVisible={isModalVisible} onclose={onModalClose} bgColor="#EF5350"/>
     </SafeAreaView>
   );
 };

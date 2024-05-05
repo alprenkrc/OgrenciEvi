@@ -34,7 +34,7 @@ const tasks = () => {
       <View style={{position: "absolute", bottom: 0, right: 0}}>
         <FloatingButtons onPress={onModalOpen} bgColor="#DEDF21"/>
       </View>
-      <AddModal isVisible={isModalVisible} onclose={onModalClose}/>
+      <AddModal isVisible={isModalVisible} onclose={onModalClose} bgColor="#DEDF21"/>
     </SafeAreaView>
   );
 };

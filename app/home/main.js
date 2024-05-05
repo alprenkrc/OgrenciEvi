@@ -8,6 +8,7 @@ import LastTasks from '../../components/lastTasks';
 
 const main = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalBgColor, setModalBgColor] = useState('#EF5350');
 
 {
   /**
@@ -19,8 +20,9 @@ const main = () => {
    */
 }
 
-  const onModalOpen = () => {
-    setIsModalVisible(true)
+  const onModalOpen = (color) => {
+    setIsModalVisible(true);
+    setModalBgColor(color);
   }
 
   const onModalClose = () => {
@@ -35,10 +37,10 @@ const main = () => {
         
       </View>
       <View style={styles.donatAndButtons}>
-        <FloatingButtons onPress={onModalOpen} title="Gider Ekle"/>
-        <FloatingButtons onPress={onModalOpen} title="Görev Ekle" bgColor="#DEDF21"/>
+      <FloatingButtons onPress={() => onModalOpen('#EF5350')} title="Gider Ekle" bgColor="#EF5350" />
+      <FloatingButtons onPress={() => onModalOpen('#DEDF21')} title="Görev Ekle" bgColor="#DEDF21" />
       </View>
-      <AddModal isVisible={isModalVisible} onclose={onModalClose}/>
+      <AddModal isVisible={isModalVisible} onclose={onModalClose} bgColor={modalBgColor} />
 
       <View style={{flex: 1, }}>
 

@@ -3,6 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
 
 const floatingButtons = ({bgColor, onPress, title}) => {
+
   return (
     <View>
       <TouchableOpacity onPress={onPress}>
