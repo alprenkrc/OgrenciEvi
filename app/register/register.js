@@ -1,18 +1,42 @@
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
-import React from 'react'
-import { Link } from 'expo-router'
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../config/firebase';
+import React, { useState } from 'react'
+import { Link, router, useRouter } from 'expo-router'
 
 const register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorState, setErrorState] = useState("");
+
+  const handleSignup = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log("kayıt olundu");
+      router.replace("/home/main"); // Başarılı kayıttan sonra sayfayı değiştir
+    } catch (error) {
+      setErrorState(error.message);
+    }
+  };
+
+
   return (
     <View style={styles.container}>
       <Text>REGISTER SCREEN</Text>
       <TextInput
         placeholder='Emailini gir'
         style={styles.input}
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+        keyboardType='email-address'
       />
       <TextInput
         placeholder='Parolanı gir'
         style={styles.input}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+        secureTextEntry={true}
+
       />
       <TextInput
         placeholder='Kullanıcı Adını Gir'
@@ -30,6 +54,8 @@ const register = () => {
         placeholder='Hangi Şehirdesin'
         style={styles.input}
       />
+      <Button title="Kayıt Ol" onPress={handleSignup} />
+      {errorState ? <Text style={styles.error}>{errorState}</Text> : null}
 
       <Link style={styles.login} href="/register/homeCreateOrJoin">
         <Text style={styles.text}>Devam Et(ev bilgilerini almak için)</Text>

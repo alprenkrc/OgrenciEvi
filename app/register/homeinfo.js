@@ -35,7 +35,6 @@ const homeinfo = () => {
 
     <Link style={styles.login} href="/register/qrScreen">
       <Text style={styles.text}>Evi Oluştur</Text>
-        
     </Link>
 
 
