@@ -1,21 +1,46 @@
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
-import React from 'react'
-import { Link } from 'expo-router'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../config/firebase';
+import React, { useState } from 'react'
+import { Link, router } from 'expo-router'
 
 const login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorState, setErrorState] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("giriş yapıldı");
+      router.replace("/home/main"); // Başarılı kayıttan sonra sayfayı değiştir
+    } catch (error) {
+      setErrorState(error.message);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text>LOGIN SCREEN</Text>
       <TextInput
         placeholder='Emailini gir'
         style={styles.input}
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+        keyboardType='email-address'
       />
       <TextInput
         placeholder='Parolanı gir'
         style={styles.input}
-        
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+        secureTextEntry={true}
+
       />
 
+      <Button title='Login' onPress={handleLogin}/>
+      {errorState ? <Text style={styles.error}>{errorState}</Text> : null}
+
+                
       <Link style={styles.login} href="/home/main">
         <Text style={styles.text}>Giriş Yap</Text>
       </Link>

@@ -2,9 +2,10 @@ import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../config/firebase';
 import React, { useState } from 'react'
-import { Link, router, useRouter } from 'expo-router'
+import { Link, router } from 'expo-router'
 
 const register = () => {
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorState, setErrorState] = useState("");
@@ -38,23 +39,27 @@ const register = () => {
         secureTextEntry={true}
 
       />
-      <TextInput
-        placeholder='Kullanıcı Adını Gir'
-        style={styles.input}
-      />
-      <TextInput
-        placeholder='Doğum Tarihini Gir'
-        style={styles.input}
-      />
-      <TextInput
-        placeholder='Telefon Numarası'
-        style={styles.input}
-      />
-      <TextInput
-        placeholder='Hangi Şehirdesin'
-        style={styles.input}
-      />
-      <Button title="Kayıt Ol" onPress={handleSignup} />
+      {/**    
+       
+       <TextInput
+         placeholder='Kullanıcı Adını Gir'
+         style={styles.input}
+       />
+       <TextInput
+         placeholder='Doğum Tarihini Gir'
+         style={styles.input}
+       />
+       <TextInput
+         placeholder='Telefon Numarası'
+         style={styles.input}
+       />
+       <TextInput
+         placeholder='Hangi Şehirdesin'
+         style={styles.input}
+       />
+
+       */}
+      <Button title="Kayıt Ol" onPress={handleSignup}/>
       {errorState ? <Text style={styles.error}>{errorState}</Text> : null}
 
       <Link style={styles.login} href="/register/homeCreateOrJoin">
