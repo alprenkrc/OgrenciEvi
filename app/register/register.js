@@ -12,9 +12,10 @@ const register = () => {
 
   const handleSignup = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log("kayıt olundu");
-      router.replace("/home/main"); // Başarılı kayıttan sonra sayfayı değiştir
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+      console.log("Kullanıcı kayıt oldu, uid:", uid);
+      router.push({pathname: "/register/homeCreateOrJoin", params: {uid}})
     } catch (error) {
       setErrorState(error.message);
     }

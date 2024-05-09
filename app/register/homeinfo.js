@@ -1,8 +1,31 @@
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native'
-import React from 'react'
-import { Link } from 'expo-router'
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { database } from '../../config/firebase'; // 'storage' nesnesi şu anda kullanılmıyor
+import { Link, router, useLocalSearchParams } from 'expo-router';
+import { ref, push, set } from 'firebase/database';
 
 const homeinfo = () => {
+  const {uid} = useLocalSearchParams();
+  console.log("uidyi alabildik",uid);
+  
+  const [houseName, setHouseName] = useState('');
+  const [rent, setRent] = useState('');
+  const [people, setPeople] = useState('');
+
+  const handleCreateHouse = async () => {
+    // Firebase database'e ev bilgilerini kaydet
+    const houseRef = push(ref(database, 'houses'));
+    const houseId = houseRef.key;
+    await set(houseRef, {
+      houseName,
+      rent,
+      people,
+      members: {[uid]: true}
+    });
+    router.push({pathname: "/home/main", params: {houseId}})
+    console.log("Ev oluşturuldu, ID:", houseId);
+  };
+
   return (
     // ev kira mı
     // kira ise kira kaç para 
@@ -15,27 +38,43 @@ const homeinfo = () => {
     <TextInput
       placeholder='Eve Bir İsim Gir'
       style={styles.input}
+      value={houseName}
+      onChangeText={setHouseName}
     />
     <TextInput
       placeholder='Ev Kira İse Kira Kaç Para'
       style={styles.input}
+      value={rent}
+      onChangeText={setRent}
+      keyboardType='numeric'
     />
-    <TextInput
+  {/**
+    
+       <TextInput
       placeholder='Kira Günü Ayın Kaçında'
       style={styles.input}
     />
-    <TextInput
-      placeholder='Evde Kaç Kişi Yaşıyor'
-      style={styles.input}
-    />
-    <TextInput
+
+        <TextInput
       placeholder='Eve Bir Fotoğraf Ekle'
       style={styles.input}
     />
+   */
+    
+  }
 
-    <Link style={styles.login} href="/register/qrScreen">
-      <Text style={styles.text}>Evi Oluştur</Text>
-    </Link>
+    <TextInput
+      placeholder='Evde Kaç Kişi Yaşıyor'
+      style={styles.input}
+      value={people}
+      onChangeText={setPeople}
+      keyboardType='numeric'
+    />
+
+
+    <Link style={styles.login} href="/register/qrScreen" onPress={handleCreateHouse}>
+        <Text style={styles.text}>Evi Oluştur</Text>
+      </Link>
 
 
   </View>
@@ -43,7 +82,7 @@ const homeinfo = () => {
   )
 }
 
-export default homeinfo
+export default homeinfo;
 
 const styles = StyleSheet.create({
   container: {

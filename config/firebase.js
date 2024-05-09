@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getDatabase } from 'firebase/database';
+import { getStorage } from 'firebase/storage';
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
@@ -13,7 +15,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const firebaseConfig = {
   apiKey: 'AIzaSyCeW_CyZvEipI9gugi9pcTIFB-c4PP9HMk', // tamam
   authDomain: 'ogrencievi-a6402.firebaseapp.com', // tamam
-  databaseURL: 'https://ogrencievi-a6402.firebaseio.com',  // tamam
+  databaseURL: 'https://ogrencievi-a6402-default-rtdb.europe-west1.firebasedatabase.app/',  // tamam
+
   projectId: 'ogrencievi-a6402', // tamam
   storageBucket: 'ogrencievi-a6402.appspot.com', // tamam
   messagingSenderId: '746956635781', // tamam
@@ -25,8 +28,12 @@ const app = initializeApp(firebaseConfig);
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
 // initialize auth; only for native platforms (Android and iOS)
+const database = getDatabase(app);
+const storage = getStorage(app);
+
+
 const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage),
   });
   
-export { auth };
+export { auth, database, storage };

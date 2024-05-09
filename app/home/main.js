@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View,  } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'expo-router';
 import FloatingButtons from '../../components/floatingButtons';
 import AddModal from '../../components/addModal';
 import LastTasks from '../../components/lastTasks';
+import useHouseData from '../../use/useHouseData';
 
 const main = () => {
+  const {houseName} = useHouseData();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalBgColor, setModalBgColor] = useState('#EF5350');
 
@@ -22,7 +25,7 @@ const main = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={{fontSize: 24, fontWeight: "bold"}}>Evin İsmi</Text>
+        <Text style={{fontSize: 24, fontWeight: "bold"}}>{houseName}</Text>
         <Link href="/home/account"><View style={{width:50, height: 50, borderRadius: 50, backgroundColor: "black"}}/></Link>
         
       </View>
