@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, Pressable, TouchableOpacity } from 'react-native'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/firebase';
 import React, { useState } from 'react'
@@ -38,6 +38,10 @@ const login = () => {
       />
 
       <Button title='Login' onPress={handleLogin}/>
+      <TouchableOpacity style={styles.login} onPress={handleLogin}>
+        <Text>Login</Text>
+      </TouchableOpacity>
+
       {errorState ? <Text style={styles.error}>{errorState}</Text> : null}
 
                 
