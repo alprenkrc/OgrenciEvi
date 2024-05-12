@@ -1,8 +1,12 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from 'react';
 import { Link, useLocalSearchParams, router } from "expo-router";
+import useHouseData from "../../use/useHouseData";
 
 const homeCreateOrJoin = () => {
+  const {userId} = useHouseData();
+  console.log("userIdi alabildik", userId);
+
   const {uid} = useLocalSearchParams();
   console.log("uidyi alabildik", uid);
 
@@ -17,15 +21,26 @@ const homeCreateOrJoin = () => {
   return (
     <View style={styles.container}>
       {/* Ev Oluştur butonu */}
-      <Button title="ev oluştur" onPress={transferUIDHomeInfo}/>
-      <Button title="eve katıl" onPress={transferUIDQr}/>
-      <Link style={styles.login} href="/register/homeinfo" onPress={transferUIDHomeInfo}>
+{/*       <Button title="ev oluştur" onPress={transferUIDHomeInfo}/>
+      <Button title="eve katıl" onPress={transferUIDQr}/> */}
+
+      <Pressable style={styles.login} onPress={transferUIDHomeInfo}>
+        <Text style={styles.text}>Ev Oluştur</Text>
+      </Pressable>
+
+      <Pressable style={styles.login} onPress={transferUIDQr}>
+        <Text style={styles.text}>Eve Katıl</Text>
+      </Pressable>
+      
+{/*       <Link style={styles.login} href="/register/homeinfo" onPress={transferUIDHomeInfo}>
         <Text style={styles.text}>Ev Oluştur</Text>
       </Link>
-      {/* Eve Katıl butonu */}
+
       <Link style={styles.login} href="/register/qrScreen" onPress={transferUIDQr}>
         <Text style={styles.text}>Eve Katıl</Text>
-      </Link>
+      </Link> */}
+
+
     </View>
   );
 }

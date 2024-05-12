@@ -5,7 +5,7 @@ import { Link, Redirect } from "expo-router";
 const index = () => {
   return (
     <View style={styles.container}>
-      {/** <Redirect href="/register/register" /> */ }
+      {/* <Redirect href="/home/expense" /> */}
       <Text style={{ fontSize: 24 }}>WELCOME SCREEN</Text>
 
       <View style={{justifyContent: "center", alignItems: "center", width: "100%"}}>

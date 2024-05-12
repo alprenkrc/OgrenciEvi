@@ -1,10 +1,19 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FloatingButtons from "../../components/floatingButtons";
 import AddModal from '../../components/addModal';
 import ExpenseBox from "../../components/ExpenseBox";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import { database } from "../../config/firebase";
+import { ref, onValue } from "firebase/database";
+import useHouseData from "../../use/useHouseData";
+
+
+
 const expense = () => {
+  const {houseId} = useHouseData();
+
+  const [expenses, setExpenses] = useState([]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -16,6 +25,35 @@ const expense = () => {
     setIsModalVisible(false)
   }
 
+  useEffect(() => {
+    // Giderlerin olduğu yola referans oluştur
+    const expensesRef = ref(database, `houses/${houseId}/expenses`);
+
+    // Veritabanındaki değişiklikleri dinle
+    const unsubscribe = onValue(expensesRef, (snapshot) => {
+      const expensesData = snapshot.val();
+      const loadedExpenses = [];
+
+      // Gelen veriyi işle ve bir liste haline getir
+      for (const id in expensesData) {
+        loadedExpenses.push({
+          id,
+          ...expensesData[id]
+        });
+      }
+      loadedExpenses.reverse();
+
+      // State'i güncelle
+      setExpenses(loadedExpenses);
+    });
+
+    // Temizleme fonksiyonu
+    return () => unsubscribe();
+  }, [houseId]);
+
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -24,16 +62,21 @@ const expense = () => {
       <View style={{flex: 0.5}}>
 
       </View>
-      <ScrollView style={{flex: 1}}>
-        <ExpenseBox/>
-        <ExpenseBox/>
-        <ExpenseBox/>
-        <ExpenseBox/>
-        <ExpenseBox/>
-        <ExpenseBox/>
-        <ExpenseBox/>
-        <ExpenseBox/>
-      </ScrollView>
+
+        {/*  */}
+        <FlatList
+        style={{flex: 1}}
+        data={expenses}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+
+          <View>
+            <ExpenseBox name={item.name} amount={item.amount} description={item.description} date={item.date}/>
+          </View>
+        )}
+      />
+
+
       <View style={{position: "absolute", bottom: 0, right: 0}}>
         <FloatingButtons onPress={onModalOpen} bgColor={"#EF5350"}/>
       </View>

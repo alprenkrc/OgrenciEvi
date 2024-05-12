@@ -1,22 +1,68 @@
 import { Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react'
+import useHouseData from '../use/useHouseData';
+import { database , } from '../config/firebase';
+import { push, ref } from 'firebase/database';
 
 
 const addModal = ({isVisible, onclose, bgColor }) => {
+    const { houseId } = useHouseData();
 
+    const [expenseName, setExpenseName] = useState("");
+    const [description, setDescription] = useState("");
+    const [amount, setAmount] = useState("");
     const [isChecked, setChecked] = useState(false);
 
+    const handleAddExpense = () => {
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleDateString('tr-TR');
+      const formattedTime = currentDate.toLocaleTimeString('tr-TR');
+        
+      const expenseData = {
+        name: expenseName,
+        description: description,
+        amount: amount,
+        date: `${formattedDate} ${formattedTime}`
+      };
+      console.log("gider eklendi", houseId)
+      onAddExpense(houseId, expenseData)
+      setExpenseName("");
+      setDescription("");
+      setAmount("");
+      onclose();
+    }
+
+    const onAddExpense = (houseId, expenseData) => {
+        const expensesRef = ref(database, `houses/${houseId}/expenses`);
+        push(expensesRef, expenseData);
+    };
 
     let modalContent = null;
 
     if (bgColor === "#EF5350") {
         modalContent =(
         <View style={{        alignItems: "center", width: "100%", padding: 20}}>
-        <TextInput style={styles.input} placeholder='Gider Adı'/>
-        <TextInput style={styles.input} placeholder='Açıklama'/>
-        <TextInput style={styles.input} placeholder='₺ Gider Miktarı' keyboardType='numeric' />
-        <TouchableOpacity style={styles.button} onPress={onclose}>
+        <TextInput 
+            style={styles.input} 
+            placeholder='Gider Adı'
+            value={expenseName}
+            onChangeText={setExpenseName}
+        />
+        <TextInput 
+            style={styles.input} 
+            placeholder='Açıklama'
+            value={description}
+            onChangeText={setDescription}
+        />
+        <TextInput 
+            style={styles.input} 
+            placeholder='₺ Gider Miktarı' 
+            keyboardType='numeric' 
+            value={amount}
+            onChangeText={setAmount}
+            />
+        <TouchableOpacity style={styles.button} onPress={handleAddExpense}>
             <Text style={{fontSize: 16, fontWeight: 'bold'}}>Gider Ekle</Text>
         </TouchableOpacity>
         </View>

@@ -3,10 +3,13 @@ import { Button, StyleSheet, Text, View } from 'react-native'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import { router } from 'expo-router'
+import useHouseData from '../../use/useHouseData'
 
 
 
 const account = () => {
+  const {rent, houseId} = useHouseData();
+
   const [userEmail, setUserEmail] = useState("");
   const [userId, setUserId] = useState("");
 
@@ -35,8 +38,10 @@ const account = () => {
 
   return (
     <View style={styles.container}>
-      <Text>{userId}</Text>
-      <Text>{userEmail}</Text>
+      <Text>Home ID: {houseId}</Text>
+      <Text>Kira: {rent}</Text>
+      <Text>User ID: {userId}</Text>
+      <Text>User Email: {userEmail}</Text>
       <Button
         title='çıkış yap'
         onPress={handleLogout}

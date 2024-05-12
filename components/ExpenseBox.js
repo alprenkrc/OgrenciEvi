@@ -1,18 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const ExpenseBox = () => {
+const ExpenseBox = ({name, amount, description, date}) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={{fontSize: 18, fontWeight:"bold"}}>Market</Text>
+        <Text style={{fontSize: 18, fontWeight:"bold"}}>{name}</Text>
         <Text>Kimden: Alperen</Text>
-        <Text>Yumurta + kola</Text>
+        <Text>{description}</Text>
       </View>
 
       <View>
-        <Text>Tarih-Saat</Text>
-        <Text style={{fontSize: 32, fontWeight: "500", color: "#EF5350"}}>₺120</Text>
+        <Text>{date}</Text>
+        <Text style={{fontSize: 32, fontWeight: "500", color: "#EF5350"}}>₺ {amount}</Text>
       </View>
     </View>
   )
