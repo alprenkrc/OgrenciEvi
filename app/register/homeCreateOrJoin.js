@@ -4,18 +4,18 @@ import { Link, useLocalSearchParams, router } from "expo-router";
 import useHouseData from "../../use/useHouseData";
 
 const homeCreateOrJoin = () => {
-  const {userId} = useHouseData();
-  console.log("userIdi alabildik", userId);
+/*   const {userId} = useHouseData();
+  console.log("userIdi alabildik", userId); */
 
-  const {uid} = useLocalSearchParams();
-  console.log("uidyi alabildik", uid);
+  const {uid, fullName} = useLocalSearchParams();
+  console.log("uidyi alabildik", uid, fullName);
 
   const transferUIDHomeInfo = () => {
-    router.push({pathname: "/register/homeinfo", params: {uid}});
+    router.push({pathname: "/register/homeinfo", params: {uid, fullName}});
   }
 
   const transferUIDQr = () => {
-    router.push({pathname: "/register/qrScreen", params: {uid}});
+    router.push({pathname: "/register/qrScreen", params: {uid, fullName}});
   }
   
   return (

@@ -1,8 +1,21 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Link, Redirect } from "expo-router";
+import React, {useEffect} from "react";
+import { Link, Redirect, router } from "expo-router";
+import { auth } from "../config/firebase";
 
 const index = () => {
+
+/*   useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Kullanıcı oturum açmışsa anasayfaya yönlendir
+        router.navigate("/home/main")
+      }
+    });
+    return () => unsubscribe();
+  }, []); */
+
+
   return (
     <View style={styles.container}>
       {/* <Redirect href="/home/expense" /> */}

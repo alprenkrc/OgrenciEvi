@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../../config/firebase';
 import React, { useState } from 'react'
 import { Link, router } from 'expo-router'
@@ -8,14 +8,20 @@ const register = () => {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [errorState, setErrorState] = useState("");
 
   const handleSignup = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
-      console.log("Kullanıcı kayıt oldu, uid:", uid);
-      router.push({pathname: "/register/homeCreateOrJoin", params: {uid}})
+      const user = userCredential.user;
+      await updateProfile(user, {
+        displayName: fullName
+      })
+      console.log("Kullanıcı kayıt oldu, uid:", uid, user.displayName);
+      router.push({pathname: "/register/homeCreateOrJoin", params: {uid, fullName}})
+
     } catch (error) {
       setErrorState(error.message);
     }
@@ -40,13 +46,13 @@ const register = () => {
         secureTextEntry={true}
 
       />
-      {/**    
-       
        <TextInput
-         placeholder='Kullanıcı Adını Gir'
+         placeholder='İsmini Gir'
          style={styles.input}
+         value={fullName}
+         onChangeText={(text) => setFullName(text)}
        />
-       <TextInput
+{/*        <TextInput
          placeholder='Doğum Tarihini Gir'
          style={styles.input}
        />
@@ -57,9 +63,9 @@ const register = () => {
        <TextInput
          placeholder='Hangi Şehirdesin'
          style={styles.input}
-       />
+       /> */}
 
-       */}
+      
       <Button title="Kayıt Ol" onPress={handleSignup}/>
       {errorState ? <Text style={styles.error}>{errorState}</Text> : null}
 
@@ -73,7 +79,7 @@ const register = () => {
   )
 }
 
-export default register
+export default register;
 
 const styles = StyleSheet.create({
   container: {

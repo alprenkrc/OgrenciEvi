@@ -1,11 +1,11 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FloatingButtons from "../../components/floatingButtons";
 import AddModal from '../../components/addModal';
 import ExpenseBox from "../../components/ExpenseBox";
 import React, {useState, useEffect} from "react";
 import { database } from "../../config/firebase";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import useHouseData from "../../use/useHouseData";
 
 
@@ -51,6 +51,22 @@ const expense = () => {
     return () => unsubscribe();
   }, [houseId]);
 
+  const handleDeleteExpense = (expenseId) => {
+    // Giderin bulunduğu yola referans oluştur
+    const expenseRef = ref(database, `houses/${houseId}/expenses/${expenseId}`);
+  
+    // Gideri veritabanından kaldır
+    remove(expenseRef)
+      .then(() => {
+        console.log('Gider başarıyla silindi.');
+        // Gider listesini güncelle
+        setExpenses(prevExpenses => prevExpenses.filter(expense => expense.id !== expenseId));
+      })
+      .catch((error) => {
+        console.error('Gider silinirken bir hata oluştu:', error);
+      });
+  };
+
 
 
 
@@ -71,7 +87,28 @@ const expense = () => {
         renderItem={({ item }) => (
 
           <View>
-            <ExpenseBox name={item.name} amount={item.amount} description={item.description} date={item.date}/>
+            <Pressable onLongPress={() => {
+                  Alert.alert(
+                    'Gideri Sil', 
+                    `${item.name} giderini silmek istediğinize emin misiniz?`, 
+                    [
+                      {
+                        text: 'İptal',
+                        onPress: () => console.log('Silme iptal edildi'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Sil', 
+                        onPress: () => handleDeleteExpense(item.id), // Burada item.id expenseId olarak kullanılıyor
+                        style: 'destructive'
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+            }} >
+              <ExpenseBox name={item.name} amount={item.amount} description={item.description} date={item.date} fullName={item.fullName}/>
+
+            </Pressable>
           </View>
         )}
       />

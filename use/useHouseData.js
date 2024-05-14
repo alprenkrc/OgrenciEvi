@@ -6,9 +6,12 @@ const useHouseData = () => {
   const [houseData, setHouseData] = useState({
     houseId: '', // Evin ID'sini tutacak yeni state
     houseName: '',
-    rent: ''
+    rent: '',
+    memberIds: [], // Kullanıcı ID'lerini tutacak yeni state
+    memberFullNames: [] // Üyelerin tam adlarını tutacak yeni state
   });
   const [userId, setUserId] = useState('');
+  
 
   useEffect(() => {
     // Kullanıcının kimlik doğrulama durumunu dinle
@@ -31,10 +34,14 @@ const useHouseData = () => {
         for (const houseId in houses) {
           const house = houses[houseId];
           if (house.members && Object.keys(house.members).includes(userId)) {
+            const memberIds = Object.keys(house.members);
+            const memberFullNames = memberIds.map(id => house.members[id].fullName);
             setHouseData({
               houseId: houseId, // Evin ID'sini state'e ekle
               houseName: house.houseName,
-              rent: house.rent
+              rent: house.rent,
+              memberIds: memberIds,
+              memberFullNames: memberFullNames  // Kullanıcı ID'leri listesini state'e ekle
             }); // Kullanıcı bir üye ise ev verilerini ayarla
             break; // Ev bulunduğunda döngüyü durdur
           }

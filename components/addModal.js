@@ -2,16 +2,22 @@ import { Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View }
 import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react'
 import useHouseData from '../use/useHouseData';
-import { database , } from '../config/firebase';
+import { database ,auth } from '../config/firebase';
 import { push, ref } from 'firebase/database';
 
 
 const addModal = ({isVisible, onclose, bgColor }) => {
-    const { houseId } = useHouseData();
+    const { houseId, memberFullNames } = useHouseData();
 
+    /* giderler için değişkenler */
     const [expenseName, setExpenseName] = useState("");
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
+
+    /* görevler için değişkenler */
+    const [taskName, setTaskName] = useState("");
+    const [selectedMembers, setSelectedMembers] = useState({});
+
     const [isChecked, setChecked] = useState(false);
 
     const handleAddExpense = () => {
@@ -20,11 +26,13 @@ const addModal = ({isVisible, onclose, bgColor }) => {
       const formattedTime = currentDate.toLocaleTimeString('tr-TR');
         
       const expenseData = {
+        fullName: auth.currentUser.displayName,
         name: expenseName,
         description: description,
         amount: amount,
         date: `${formattedDate} ${formattedTime}`
       };
+
       console.log("gider eklendi", houseId)
       onAddExpense(houseId, expenseData)
       setExpenseName("");
@@ -37,6 +45,38 @@ const addModal = ({isVisible, onclose, bgColor }) => {
         const expensesRef = ref(database, `houses/${houseId}/expenses`);
         push(expensesRef, expenseData);
     };
+
+    const handleSelectMember = (memberName, isChecked) => {
+        setSelectedMembers(prevState => ({
+          ...prevState,
+          [memberName]: isChecked
+        }));
+      };
+
+    
+
+      const handleAddTask = () => {
+        // Seçilen üyelerin listesini oluştur
+        const assignedMembers = Object.entries(selectedMembers)
+          .filter(([_, isChecked]) => isChecked)
+          .map(([name]) => name);
+    
+        const taskData = {
+          taskName: taskName,
+          assignedMembers: assignedMembers
+        };
+    
+        console.log("Görev Eklendi", houseId)
+        onAddTask(houseId, taskData)
+        setTaskName("");
+        setSelectedMembers({}); // Görev eklendikten sonra seçimleri sıfırla
+        onclose();
+      }
+
+    const onAddTask = (houseId, taskData) => {
+      const tasksRef = ref(database, `houses/${houseId}/tasks`);
+      push(tasksRef, taskData);
+    }
 
     let modalContent = null;
 
@@ -70,18 +110,27 @@ const addModal = ({isVisible, onclose, bgColor }) => {
     } 
     if(bgColor === "#DEDF21") {
         modalContent = (
-            <View style={{        alignItems: "center", width: "100%", padding: 20}}>
-            <TextInput style={styles.input} placeholder='Görev Adı'/>
-            <Text>Görev Alacak Kişileri Seç</Text>
-            <View style={styles.taskBox}>
-                <Text>Alperen</Text>
-                <Checkbox value={isChecked} onValueChange={setChecked}/>
-
-            </View>
-            <TouchableOpacity style={[styles.button, {backgroundColor: "#DEDF21"}]} onPress={onclose}>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>Görev Ekle</Text>
-            </TouchableOpacity>
-            </View>
+<View style={{ alignItems: "center", width: "100%", padding: 20 }}>
+        <TextInput
+          style={styles.input}
+          placeholder='Görev Adı'
+          value={taskName}
+          onChangeText={setTaskName}
+        />
+        <Text>Görev Alacak Kişileri Seç</Text>
+        {memberFullNames.map((name, index) => (
+          <View key={index} style={styles.taskBox}>
+            <Text>{name}</Text>
+            <Checkbox
+              value={!!selectedMembers[name]}
+              onValueChange={(isChecked) => handleSelectMember(name, isChecked)}
+            />
+          </View>
+        ))}
+        <TouchableOpacity style={[styles.button, { backgroundColor: "#DEDF21" }]} onPress={handleAddTask}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Görev Ekle</Text>
+        </TouchableOpacity>
+      </View>
         )
 
     }
@@ -138,6 +187,7 @@ const styles = StyleSheet.create({
     taskBox: {
         width: "100%",
         padding: 20,
+        marginBottom: 10,
         backgroundColor: "white",
         borderRadius: 20,
         flexDirection: "row",

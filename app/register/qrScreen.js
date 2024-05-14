@@ -5,7 +5,7 @@ import { database } from '../../config/firebase';
 import { ref, update, get } from 'firebase/database';
 
 const qrScreen = () => {
-  const {uid} = useLocalSearchParams();
+  const {uid, fullName} = useLocalSearchParams();
   console.log("uidyi alabildik",uid);
   
   const [houseId, setHouseId] = useState('');
@@ -14,20 +14,19 @@ const qrScreen = () => {
 
   const handleJoinHouse = async () => {
     try {
-      // Ev ID'sini doğrula
       const houseRef = ref(database, `houses/${houseId}`);
       const houseSnapshot = await get(houseRef);
 
       if (houseSnapshot.exists()) {
-        // Kullanıcıyı evin üyeleri listesine ekle
+        // Kullanıcıyı evin üyeleri listesine ekle ve fullName'i kaydet
         const userRef = ref(database, `houses/${houseId}/members/${uid}`);
-        await update(userRef, { joined: true });
+        await update(userRef, { joined: true, fullName: fullName });
 
-        // Kullanıcının profilinde ev ID'sini güncelle
+        // Kullanıcının profilinde ev ID'sini ve fullName'ini güncelle
         const userProfileRef = ref(database, `users/${uid}`);
-        await update(userProfileRef, { houseId: houseId });
+        await update(userProfileRef, { houseId: houseId, fullName: fullName });
 
-        console.log(`Kullanıcı ${uid}, ev ${houseId} 'e başarıyla katıldı.`);
+        console.log(`Kullanıcı ${uid}, ev ${houseId} 'e başarıyla katıldı ve ismi kaydedildi.`);
       } else {
         setErrorState('Ev bulunamadı.');
       }

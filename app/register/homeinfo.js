@@ -5,8 +5,8 @@ import { Link, router, useLocalSearchParams } from 'expo-router';
 import { ref, push, set } from 'firebase/database';
 
 const homeinfo = () => {
-  const {uid} = useLocalSearchParams();
-  console.log("uidyi alabildik",uid);
+  const {uid, fullName} = useLocalSearchParams();
+  console.log("uidyi alabildik",uid, fullName);
   
   const [houseName, setHouseName] = useState('');
   const [rent, setRent] = useState('');
@@ -20,7 +20,7 @@ const homeinfo = () => {
       houseName,
       rent,
       people,
-      members: {[uid]: true}
+      members: {[uid]: {fullName: fullName}}
     });
     router.push({pathname: "/home/main", params: {houseId}})
     console.log("Ev oluşturuldu, ID:", houseId);
