@@ -18,7 +18,7 @@ const index = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Redirect href="/home/expense" /> */}
+ {/*       <Redirect href="/home/account" />  */}
       <Text style={{ fontSize: 24 }}>WELCOME SCREEN</Text>
 
       <View style={{justifyContent: "center", alignItems: "center", width: "100%"}}>

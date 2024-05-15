@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native'
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../../config/firebase';
 import React, { useState } from 'react'
@@ -65,9 +65,13 @@ const register = () => {
          style={styles.input}
        /> */}
 
-      
-      <Button title="Kayıt Ol" onPress={handleSignup}/>
+      <TouchableOpacity style={styles.login} onPress={handleSignup}>
+        <Text style={styles.text}>Kayıt Ol</Text>
+      </TouchableOpacity>
       {errorState ? <Text style={styles.error}>{errorState}</Text> : null}
+
+{/*       <Button title="Kayıt Ol" onPress={handleSignup}/>
+      {errorState ? <Text style={styles.error}>{errorState}</Text> : null} */}
 
       <Link style={styles.login} href="/register/homeCreateOrJoin">
         <Text style={styles.text}>Devam Et(ev bilgilerini almak için)</Text>
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#c7c70b",
     marginBottom: 10,
-    textAlign: "center"
+    alignItems: "center"
   },
   text: {
     fontSize: 18,

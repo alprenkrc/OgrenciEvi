@@ -37,9 +37,9 @@ const login = () => {
 
       />
 
-      <Button title='Login' onPress={handleLogin}/>
+  
       <TouchableOpacity style={styles.login} onPress={handleLogin}>
-        <Text>Login</Text>
+        <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
 
       {errorState ? <Text style={styles.error}>{errorState}</Text> : null}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#c7c70b",
     marginBottom: 10,
-    textAlign: "center"
+    alignItems: "center"
   },
   text: {
     fontSize: 18,
